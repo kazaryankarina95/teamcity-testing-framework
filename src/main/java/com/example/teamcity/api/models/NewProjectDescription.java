@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// this is what we pass as an input when creating a new project
 public class NewProjectDescription {
 
     // Get project`s fields from https://www.jetbrains.com/help/teamcity/rest/project.html
