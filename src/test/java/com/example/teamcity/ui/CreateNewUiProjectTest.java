@@ -1,34 +1,21 @@
 package com.example.teamcity.ui;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.selector.ByAttribute;
-import com.example.teamcity.api.requests.checked.CheckedUser;
-import com.example.teamcity.api.spec.Specifications;
+import com.example.teamcity.api.generators.TestDataStorage;
+import com.example.teamcity.ui.pages.admin.CreateNewProject;
 import org.testng.annotations.Test;
-
-import static com.codeborne.selenide.Selenide.element;
-import static com.example.teamcity.api.generators.TestDataStorage.testDataStorage;
 
 public class CreateNewUiProjectTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldBeAbleToCreateProject() {
 
-        var testData = testDataStorage.addTestData();
+        var testData = TestDataStorage.addTestData();
 
-        new CheckedUser(Specifications.getSpec().superUserSpec())
-                .create(testData.getUser());
+        var url = "https://github.com/karinakazaryan/TestProject";
 
-        Selenide.open("/login.html");
+        loginAsUser(testData.getUser());
 
-        var usernameInput = element(new ByAttribute("id", "username"));
-        var passwordInput = element(new ByAttribute("id", "password"));
-        var loginButton = element(new ByAttribute("type", "submit"));
-
-
-        usernameInput.sendKeys(testData.getUser().getUsername());
-        passwordInput.sendKeys(testData.getUser().getPassword());
-        loginButton.click();
-
-
+        new CreateNewProject().open(testData.getProject().getParentProject().getId())
+                .createProjectByURL(url)
+                .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
     }
 }
