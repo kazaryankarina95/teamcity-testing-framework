@@ -1,4 +1,4 @@
-package com.example.teamcity.api;
+package com.example.teamcity.api.errors;
 
 public final class Errors {
     // this is utility class contains no state, that`s why we have to create private constructor. We can`t create an instance of this class.

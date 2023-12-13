@@ -10,12 +10,12 @@ import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
-import static com.example.teamcity.api.Errors.BUILD_CONFIG_WITH_SAME_NAME_ALREADY_EXISTS;
-import static com.example.teamcity.api.Errors.BUILD_CONFIG_CANT_BE_CREATED_WITH_PROJECT_NULL;
-import static com.example.teamcity.api.Errors.BUILD_CONFIG_CANT_HAVE_ID_226_CHARACTERS;
-import static com.example.teamcity.api.Errors.BUILD_CONFIG_CANT_HAVE_INVALID_ID;
-import static com.example.teamcity.api.Errors.BUILD_CONFIG_ID_IS_USED;
-import static com.example.teamcity.api.Errors.BUILD_CONFIG_NAME_SHOULD_BE_PROVIDED;
+import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_WITH_SAME_NAME_ALREADY_EXISTS;
+import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_CANT_BE_CREATED_WITH_PROJECT_NULL;
+import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_CANT_HAVE_ID_226_CHARACTERS;
+import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_CANT_HAVE_INVALID_ID;
+import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_ID_IS_USED;
+import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_NAME_SHOULD_BE_PROVIDED;
 import static com.example.teamcity.api.generators.RandomData.generateStringWithSpecialCharacters;
 
 public class BuildConfigurationTest extends BaseApiTest {

@@ -10,13 +10,13 @@ import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
-import static com.example.teamcity.api.Errors.PROJECT_ID_CANT_HAVE_ID_226_CHARACTERS;
-import static com.example.teamcity.api.Errors.PROJECT_ID_CANT_BE_EMPTY;
-import static com.example.teamcity.api.Errors.PROJECT_CANT_HAVE_SAME_ID;
-import static com.example.teamcity.api.Errors.PROJECT_NAME_ALREADY_EXISTS;
-import static com.example.teamcity.api.Errors.PROJECT_NAME_CANT_BE_NULL;
-import static com.example.teamcity.api.Errors.PROJECT_NAME_CANT_BE_EMPTY;
-import static com.example.teamcity.api.Errors.PROJECT_WITH_WRONG_ROOT;
+import static com.example.teamcity.api.errors.Errors.PROJECT_ID_CANT_HAVE_ID_226_CHARACTERS;
+import static com.example.teamcity.api.errors.Errors.PROJECT_ID_CANT_BE_EMPTY;
+import static com.example.teamcity.api.errors.Errors.PROJECT_CANT_HAVE_SAME_ID;
+import static com.example.teamcity.api.errors.Errors.PROJECT_NAME_ALREADY_EXISTS;
+import static com.example.teamcity.api.errors.Errors.PROJECT_NAME_CANT_BE_NULL;
+import static com.example.teamcity.api.errors.Errors.PROJECT_NAME_CANT_BE_EMPTY;
+import static com.example.teamcity.api.errors.Errors.PROJECT_WITH_WRONG_ROOT;
 
 public class ProjectTest extends BaseApiTest {
 
