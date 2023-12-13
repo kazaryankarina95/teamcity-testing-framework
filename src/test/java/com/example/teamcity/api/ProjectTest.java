@@ -2,7 +2,6 @@ package com.example.teamcity.api;
 
 import com.example.teamcity.api.generators.RandomData;
 import com.example.teamcity.api.models.NewProjectDescription;
-import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.checked.CheckedUser;
 import com.example.teamcity.api.requests.unchecked.UncheckedProject;
@@ -10,6 +9,14 @@ import com.example.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
+
+import static com.example.teamcity.api.Errors.PROJECT_ID_CANT_HAVE_ID_226_CHARACTERS;
+import static com.example.teamcity.api.Errors.PROJECT_ID_CANT_BE_EMPTY;
+import static com.example.teamcity.api.Errors.PROJECT_CANT_HAVE_SAME_ID;
+import static com.example.teamcity.api.Errors.PROJECT_NAME_ALREADY_EXISTS;
+import static com.example.teamcity.api.Errors.PROJECT_NAME_CANT_BE_NULL;
+import static com.example.teamcity.api.Errors.PROJECT_NAME_CANT_BE_EMPTY;
+import static com.example.teamcity.api.Errors.PROJECT_WITH_WRONG_ROOT;
 
 public class ProjectTest extends BaseApiTest {
 
@@ -37,7 +44,6 @@ public class ProjectTest extends BaseApiTest {
     @Test
     // Boundary values test: max characters limit for project ID (255 characters)
     public void successfulProjectCreationWithId255CharactersTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -45,56 +51,41 @@ public class ProjectTest extends BaseApiTest {
 
         // We create a new project with boundary value of project id
         String longNumber225 = RandomData.getString225();
+        testData.getProject().setId(longNumber225);
+
         var project = new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(RandomData.getString())
-                        .id(longNumber225)
-                        .copyAllAssociatedSettings(true)
-                        .build());
+                .create(testData.getProject());
         softy.assertThat(project.getId()).isEqualTo(longNumber225);
     }
 
     @Test
     // Project with all possible characters in Project Name
     public void successfulProjectCreationWithAllAllowedCharactersTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
         String nameWithSpecialCharacters = RandomData.generateStringWithSpecialCharacters(40);
+        testData.getProject().setName(nameWithSpecialCharacters);
 
-       var project = new CheckedProject(Specifications.getSpec()
+        var project = new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(nameWithSpecialCharacters)
-                        .id(RandomData.getString())
-                        .copyAllAssociatedSettings(true)
-                        .build());
+                .create(testData.getProject());
 
         softy.assertThat(project.getName()).isEqualTo(nameWithSpecialCharacters);
     }
 
     @Test
-    // parentProject will be "_Root" by default, in case parentProject=null
+    // parentProjectId will be "_Root" by default, in case parentProject=null
     public void successfulProjectCreationWithNullParentProjectTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
-        // We create a new project with name=null
+        // We create a new project with parentProject=null
         var project = new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(NewProjectDescription
@@ -106,30 +97,20 @@ public class ProjectTest extends BaseApiTest {
                         .build());
 
         softy.assertThat(project.getParentProjectId()).isEqualTo(testData.getProject().getParentProject().getLocator());
-
     }
 
     @Test
     // Project with copyAllAssociatedSettings=false
     public void unsuccessfulProjectCreationWithAssociatedSettingsFalseTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
+        testData.getProject().setCopyAllAssociatedSettings(false);
 
-        // We create a new project with empty project ID
         var project = new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(RandomData.getString())
-                        .id(RandomData.getString())
-                        .copyAllAssociatedSettings(false)
-                        .build());
+                .create(testData.getProject());
 
         softy.assertThat(project.equals(project));
     }
@@ -142,35 +123,26 @@ public class ProjectTest extends BaseApiTest {
      So, if you send empty ProjectId, it will be taken from ProjectName
      */
     public void successfulProjectCreationWithIdNullTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
+        testData.getProject().setId(null);
+
         // We create a new project with id=null
         new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(RandomData.getString())
-                        .id(null)
-                        .copyAllAssociatedSettings(true)
-                        .build());
+                .create(testData.getProject());
 
         //  softy.assertThat(buildType.getId()).isEqualTo(testData.getProject().getName());
     }
-
 
     // ************ IN THE SECTION BELOW YOU CAN FIND NEGATIVE TEST CASES FOR PROJECT CREATION USE CASE ************
 
     @Test
     // projects can`t have the same name (400 status code)
     public void unsuccessfulProjectCreationWithSameNameTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -186,13 +158,12 @@ public class ProjectTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.containsString("Project with this name already exists"));
+                .body(Matchers.containsString(PROJECT_NAME_ALREADY_EXISTS));
     }
 
     @Test
     // projects can`t have the same id (400 status code)
     public void unsuccessfulProjectCreationWithSameIdTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -210,115 +181,87 @@ public class ProjectTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.containsString(String.format("Project ID \"%s\" is already used by another project", testData.getProject().getId())));
+                .body(Matchers.containsString(String.format(PROJECT_CANT_HAVE_SAME_ID, testData.getProject().getId())));
     }
 
     //
     @Test
     // Project can`t have wrong project Root (404 status code)
     public void unsuccessfulProjectCreationWithWrongParentRootTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
         String Root = RandomData.getString();
+        testData.getProject().getParentProject().setLocator(Root);
+
+
         // We create a new project with wrong parent root
-        var projectWithWrongRoot = new UncheckedProject(Specifications.getSpec()
+        new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator(Root)
-                                .build())
-                        .name(RandomData.getString())
-                        .id(RandomData.getString())
-                        .copyAllAssociatedSettings(true)
-                        .build())
+                .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
-                .body(Matchers.containsString("No project found by name or internal/external id " + "'" + Root + "'"));
+                .body(Matchers.containsString(PROJECT_WITH_WRONG_ROOT.formatted(Root)));
     }
 
     @Test
     // Project can`t be created with name=null (400 status code)
     public void unsuccessfulProjectCreationWithNullNameTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
+        testData.getProject().setName(null);
+
         // We create a new project with name=null
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(null)
-                        .id(RandomData.getString())
-                        .copyAllAssociatedSettings(true)
-                        .build())
+                .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.containsString("Project name cannot be empty."));
+                .body(Matchers.containsString(PROJECT_NAME_CANT_BE_NULL));
     }
 
     @Test
     // Projects can`t be created with empty project ID (500 status code)
     public void unsuccessfulProjectCreationWithEmptyIdTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
+        testData.getProject().setId(" ");
+
         // We create a new project with empty project ID
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(RandomData.getString())
-                        .id(" ")
-                        .copyAllAssociatedSettings(true)
-                        .build())
+                .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-                .body(Matchers.containsString("Project ID must not be empty."));
+                .body(Matchers.containsString(PROJECT_ID_CANT_BE_EMPTY));
     }
 
     @Test
     // Projects can`t be created with empty project name (500 status code)
     public void unsuccessfulProjectCreationWithEmptyNameTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
+        testData.getProject().setName(" ");
+
         // We create a new project with empty project ID
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(" ")
-                        .id(RandomData.getString())
-                        .copyAllAssociatedSettings(true)
-                        .build())
+                .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-                .body(Matchers.containsString("Given project name is empty."));
+                .body(Matchers.containsString(PROJECT_NAME_CANT_BE_EMPTY));
     }
 
     @Test
     // Boundary values test: project ID (256 characters) > max characters limit (255 characters) (500 status code)
     public void unsuccessfulProjectCreationWithSpecialSymbolInNameTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -326,19 +269,13 @@ public class ProjectTest extends BaseApiTest {
 
         // We create a new project with project ID containing 256 characters
         String longNumber226 = RandomData.getString226();
+        testData.getProject().setId(longNumber226);
+
         new UncheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(NewProjectDescription
-                        .builder()
-                        .parentProject(Project.builder()
-                                .locator("_Root")
-                                .build())
-                        .name(RandomData.getString())
-                        .id(longNumber226)
-                        .copyAllAssociatedSettings(true)
-                        .build())
+                .create(testData.getProject())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
                 //ID should start with a latin letter and contain only latin letters, digits and underscores (at most 225 characters).
-                .body(Matchers.containsString(String.format("Project ID \"%s\" is invalid: it is 226 characters long while the maximum length is 225.", longNumber226)));
+                .body(Matchers.containsString(String.format(PROJECT_ID_CANT_HAVE_ID_226_CHARACTERS, longNumber226)));
     }
 }

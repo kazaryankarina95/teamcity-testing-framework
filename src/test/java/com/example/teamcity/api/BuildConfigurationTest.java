@@ -1,7 +1,6 @@
 package com.example.teamcity.api;
 
 import com.example.teamcity.api.generators.RandomData;
-import com.example.teamcity.api.models.BuildType;
 import com.example.teamcity.api.requests.checked.CheckedBuildConfig;
 import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.checked.CheckedUser;
@@ -10,6 +9,14 @@ import com.example.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
+
+import static com.example.teamcity.api.Errors.BUILD_CONFIG_WITH_SAME_NAME_ALREADY_EXISTS;
+import static com.example.teamcity.api.Errors.BUILD_CONFIG_CANT_BE_CREATED_WITH_PROJECT_NULL;
+import static com.example.teamcity.api.Errors.BUILD_CONFIG_CANT_HAVE_ID_226_CHARACTERS;
+import static com.example.teamcity.api.Errors.BUILD_CONFIG_CANT_HAVE_INVALID_ID;
+import static com.example.teamcity.api.Errors.BUILD_CONFIG_ID_IS_USED;
+import static com.example.teamcity.api.Errors.BUILD_CONFIG_NAME_SHOULD_BE_PROVIDED;
+import static com.example.teamcity.api.generators.RandomData.generateStringWithSpecialCharacters;
 
 public class BuildConfigurationTest extends BaseApiTest {
 
@@ -42,7 +49,6 @@ public class BuildConfigurationTest extends BaseApiTest {
     @Test
     // Boundary values test: max characters limit for build config ID (255 characters)
     public void successfulBuildConfigurationWithId255CharactersTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -53,14 +59,11 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .create(testData.getProject());
 
         String longNumber225 = RandomData.getString225();
+        testData.getBuildType().setId(longNumber225);
 
         var buildType = new CheckedBuildConfig(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        .id(longNumber225)
-                        .name(RandomData.getString())
-                        .project(testData.getProject())
-                        .build());
+                .create(testData.getBuildType());
 
         softy.assertThat(buildType.getId()).isEqualTo(longNumber225);
     }
@@ -68,7 +71,6 @@ public class BuildConfigurationTest extends BaseApiTest {
     @Test
     // Project with all possible characters in Build Config Name
     public void successfulBuildConfigurationWithAllAllowedCharactersTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -78,15 +80,12 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
-        String nameWithSpecialCharacters = RandomData.generateStringWithSpecialCharacters(40);
+        String nameWithSpecialCharacters = generateStringWithSpecialCharacters(40);
+        testData.getBuildType().setName(nameWithSpecialCharacters);
 
         var buildType = new CheckedBuildConfig(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        .id(RandomData.getString())
-                        .name(nameWithSpecialCharacters)
-                        .project(testData.getProject())
-                        .build());
+                .create(testData.getBuildType());
 
         softy.assertThat(buildType.getName()).isEqualTo(nameWithSpecialCharacters);
     }
@@ -99,7 +98,6 @@ public class BuildConfigurationTest extends BaseApiTest {
      So, if you send empty BuildTypeId, it will be taken as a combination of ProjectId and BuildTypeName
      */
     public void unsuccessfulBuildConfigurationWithIdNullTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -109,32 +107,26 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
+        testData.getBuildType().setId(null);
         // We create a new project with id=null
         var buildType = new CheckedBuildConfig(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        .id(null)
-                        .name(RandomData.getString())
-                        .project(testData.getProject())
-                        .build());
+                .create(testData.getBuildType());
 
-    //    softy.assertThat(buildType.getId()).isEqualTo(testData.getProject().getId() + testData.getBuildType().getName());
-
+        //    softy.assertThat(buildType.getId()).isEqualTo(testData.getProject().getId() + testData.getBuildType().getName());
     }
-
 
     // ************ IN THE SECTION BELOW YOU CAN FIND NEGATIVE TEST CASES FOR PROJECT CREATION USE CASE ************
 
     @Test
     // Build config can`t have the same name (400 status code)
     public void unsuccessfulBuildConfigurationWithSameNameTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
-       var project = new CheckedProject(Specifications.getSpec()
+        var project = new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
@@ -151,13 +143,12 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.containsString(String.format("Build configuration with name \"%s\" already exists in project: \"%s\"", buildConfigName, project.getName())));
+                .body(Matchers.containsString(String.format(BUILD_CONFIG_WITH_SAME_NAME_ALREADY_EXISTS, buildConfigName, project.getName())));
     }
 
     @Test
     // Build config can`t have the same ID (400 status code)
     public void unsuccessfulBuildConfigurationWithSameIdTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -178,15 +169,13 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.containsString(String.format("The build configuration / template ID \"%s\" is already used by another configuration or template", buildConfigId)));
+                .body(Matchers.containsString(String.format(BUILD_CONFIG_ID_IS_USED, buildConfigId)));
     }
 
     @Test
     // Build config can`t have name=null (400 status code)
     public void unsuccessfulBuildConfigurationWithNameNullTest() {
-
         var testData = testDataStorage.addTestData();
-
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
@@ -194,23 +183,19 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
-        // We create a new project with name=null
-        var buildType = new UncheckedBuildConfig(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        .id(RandomData.getString())
-                        .name(null)
-                        .project(testData.getProject())
-                        .build())
-        .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-        .body(Matchers.containsString("When creating a build type, non empty name should be provided."));
+        testData.getBuildType().setName(null);
 
+        // We create a new project with name=null
+        new UncheckedBuildConfig(Specifications.getSpec()
+                .authSpec(testData.getUser()))
+                .create(testData.getBuildType())
+                .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(Matchers.containsString(BUILD_CONFIG_NAME_SHOULD_BE_PROVIDED));
     }
 
     @Test
     // Build config can`t have project=null (400 status code)
     public void unsuccessfulBuildConfigurationWithProjectNullTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -220,23 +205,19 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
-        // We create a new project with project=null
-        var buildType = new UncheckedBuildConfig(Specifications.getSpec()
-                .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        .id(RandomData.getString())
-                        .name(RandomData.getString())
-                        .project(null)
-                        .build())
-                .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.containsString("Build type creation request should contain project node."));
+        testData.getBuildType().setProject(null);
 
+        // We create a new project with project=null
+        new UncheckedBuildConfig(Specifications.getSpec()
+                .authSpec(testData.getUser()))
+                .create(testData.getBuildType())
+                .then().assertThat().statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(Matchers.containsString(BUILD_CONFIG_CANT_BE_CREATED_WITH_PROJECT_NULL));
     }
 
     @Test
     // Build config with invalid ID. ID should start with a latin letter and contain only latin letters, digits and underscores (500 status code)
     public void unsuccessfulBuildConfigurationWith1CharacterInIdNullTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
@@ -247,44 +228,36 @@ public class BuildConfigurationTest extends BaseApiTest {
                 .create(testData.getProject());
 
         String InvalidId = " 1&@дл";
+        testData.getBuildType().setId(InvalidId);
 
-        var buildType = new UncheckedBuildConfig(Specifications.getSpec()
+        new UncheckedBuildConfig(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        // I know that here should be data generation with the rule: "use ANY character besides latin letters, digits, underscore AND start with anything besides latin letter". I'll improve later
-                        .id(InvalidId)
-                        .name(RandomData.getString())
-                        .project(testData.getProject())
-                        .build())
+                .create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-                .body(Matchers.containsString(String.format("Build configuration or template ID \"%s\" is invalid: starts with non-letter character ' '. ID should start with a latin letter and contain only latin letters, digits and underscores (at most 225 characters).", InvalidId)));
-
+                .body(Matchers.containsString(String.format(BUILD_CONFIG_CANT_HAVE_INVALID_ID, InvalidId)));
     }
+
     @Test
     // Boundary values test: project ID (256 characters) > max characters limit (255 characters) (500 status code)
     public void unsuccessfulBuildConfigurationWithId256CharactersTest() {
-
         var testData = testDataStorage.addTestData();
 
         new CheckedUser(Specifications.getSpec().superUserSpec())
                 .create(testData.getUser());
 
-        var project = new CheckedProject(Specifications.getSpec()
+        new CheckedProject(Specifications.getSpec()
                 .authSpec(testData.getUser()))
                 .create(testData.getProject());
 
         String longNumber226 = RandomData.getString226();
+        testData.getBuildType().setId(longNumber226);
 
         // We create a new build configuration with ID containing 256 characters
         new UncheckedBuildConfig(Specifications.getSpec()
                 .authSpec(testData.getUser()))
-                .create(BuildType.builder()
-                        .id(longNumber226)
-                        .name(RandomData.getString())
-                        .project(testData.getProject())
-                        .build())
+                .create(testData.getBuildType())
                 .then().assertThat().statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR)
                 // ID should start with a latin letter and contain only latin letters, digits and underscores (at most 225 characters).
-                .body(Matchers.containsString(String.format("Build configuration or template ID \"%s\" is invalid: it is 226 characters long while the maximum length is 225.", longNumber226)));
+                .body(Matchers.containsString(String.format(BUILD_CONFIG_CANT_HAVE_ID_226_CHARACTERS, longNumber226)));
     }
 }
