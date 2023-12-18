@@ -21,6 +21,7 @@ public abstract class Page {
 
     private SelenideElement pageWaitingMarker = element(Selectors.byDataTest("ring-loader"));
 
+
     public void submit() {
         submitButton.click();
         waitUntilDataIsSaved();

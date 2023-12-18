@@ -9,15 +9,18 @@ import static com.codeborne.selenide.Selenide.element;
 
 public class CreateNewProject extends Page {
 
-    private SelenideElement urlInput = element(Selectors.byId("url"));
+    private SelenideElement urlInput = null;
 
-    private SelenideElement projectNameInput = element(Selectors.byId("projectName"));
+    private SelenideElement projectNameInput = null;
 
-    private SelenideElement buildTypeNameInput = element(Selectors.byId("buildTypeName"));
+    private SelenideElement projectCreation = null;
+
+    private SelenideElement buildTypeNameInput = null;
 
     public CreateNewProject open(String parentProjectId) {
         Selenide.open("/admin/createObjectMenu.html?projectId=" + parentProjectId + "&showMode=createProjectMenu");
         waitUntilPageIsLoaded();
+        urlInput = element(Selectors.byId("url"));
         return this;
     }
 
@@ -28,10 +31,18 @@ public class CreateNewProject extends Page {
     }
 
     public void setupProject(String projectName, String buildTypeName) {
+        projectNameInput = element(Selectors.byId("projectName"));
+        buildTypeNameInput = element(Selectors.byId("buildTypeName"));
+        projectCreation = element(Selectors.byName("createProject"));
+
         projectNameInput.clear();
         projectNameInput.sendKeys(projectName);
         buildTypeNameInput.clear();
         buildTypeNameInput.sendKeys(buildTypeName);
+        projectCreation.click();
+        waitUntilPageIsLoaded();
+
     }
+
 
 }

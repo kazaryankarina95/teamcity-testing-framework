@@ -7,6 +7,8 @@ import com.example.teamcity.api.requests.unchecked.UncheckedBuildConfig;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 
+import static io.restassured.RestAssured.given;
+
 public class CheckedBuildConfig extends Request implements CrudInterface {
     public CheckedBuildConfig(RequestSpecification spec) {
         super(spec);
@@ -33,6 +35,12 @@ public class CheckedBuildConfig extends Request implements CrudInterface {
     public String delete(String id) {
         return new UncheckedBuildConfig(spec).delete(id)
                 .then().assertThat().statusCode(HttpStatus.SC_NO_CONTENT)
+                .extract().asString();
+    }
+
+    public String run(String id) {
+        return new UncheckedBuildConfig(spec).run(id)
+                .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().asString();
     }
 }
