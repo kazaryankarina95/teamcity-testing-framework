@@ -8,16 +8,15 @@ import com.example.teamcity.ui.pages.admin.CreateNewProject;
 import com.example.teamcity.ui.pages.favorites.ProjectsPage;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
-import static org.assertj.core.error.ShouldHave.shouldHave;
-import static org.testng.AssertJUnit.assertEquals;
 
 public class CreateNewBuildConfigTest extends BaseUiTest {
 
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
 
     @Test
-    // In this test we create a new project > go to favorite projects > find it by name, and make sure it exists
+    // In this test we create a new project with a build name > go to favorite projects > find it by name, and make sure it exists > find build by name, and make sure it exists
     public void authorizedUserShouldBeAbleToCreateBuildConfig() {
 
         var testData = TestDataStorage.addTestData();
@@ -35,6 +34,12 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
                 .getSubprojects()
                 .stream().reduce((first, second) -> second).get()
                 .getHeader().shouldHave(Condition.text(testData.getProject().getName()));
+
+        SelenideElement projectWasCreated = element(Selectors.byClass("ring-icon-icon SvgIcon__icon--wZ Subproject__arrow--KJ CollapsibleLine__arrow--so"));
+        projectWasCreated.click();
+
+        SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
+        buildWasCreated.shouldHave(text(testData.getProject().getName()));
 
     }
 
@@ -61,13 +66,19 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
                 .stream().reduce((first, second) -> second).get()
                 .getHeader().shouldHave(Condition.text(testData.getProject().getName()));
 
+        SelenideElement projectWasCreated = element(Selectors.byClass("ring-icon-icon SvgIcon__icon--wZ Subproject__arrow--KJ CollapsibleLine__arrow--so"));
+        projectWasCreated.click();
+
+        SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
+        buildWasCreated.shouldHave(text(testData.getProject().getName()));
+
     }
 
     // ************ IN THE SECTION BELOW YOU CAN FIND NEGATIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
 
     @Test
     // Create a project with Build config with empty name
-    public void authorizedUserShouldNotBeAbleToCreateBuildConfigWithEmptyId() {
+    public void authorizedUserShouldNotBeAbleToCreateBuildConfigWithEmptyName() {
 
         var testData = TestDataStorage.addTestData();
 
