@@ -25,10 +25,10 @@ public class UncheckedProject extends Request implements CrudInterface {
     }
 // teamcity spec https://www.jetbrains.com/help/teamcity/rest/get-project-details.html
     @Override
-    public Response get(String id) {
+    public Response get(String name) {
         return given()
                 .spec(spec)
-                .get(PROJECT_ENDPOINT + "/id:" + id);
+                .get(PROJECT_ENDPOINT + "/name:" + name);
     }
 
     @Override
