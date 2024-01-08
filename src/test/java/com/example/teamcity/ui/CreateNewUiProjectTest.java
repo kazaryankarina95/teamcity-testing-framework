@@ -1,17 +1,16 @@
 package com.example.teamcity.ui;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.example.teamcity.api.generators.RandomData;
 import com.example.teamcity.api.generators.TestDataStorage;
-import com.example.teamcity.ui.pages.favorites.ProjectsPage;
+import com.example.teamcity.api.requests.checked.CheckedProject;
+import com.example.teamcity.api.spec.Specifications;
 import com.example.teamcity.ui.pages.admin.CreateNewProject;
-import org.assertj.core.api.StringAssert;
+import com.example.teamcity.ui.pages.favorites.ProjectsPage;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
-import static java.lang.String.*;
 
 // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION ON UI USE CASE ************
 
@@ -20,15 +19,15 @@ public class CreateNewUiProjectTest extends BaseUiTest {
     // Main positive test: project ID with all allowed characters (latin alphanumeric, underscore, starts from latin later) is created.
     public void authorizedUserShouldBeAbleToCreateProject() {
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
+
+        var expectedProjectName = testData.getProject().getName();
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
                 .createProjectByURL(url)
-                .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
+                .setupProject(expectedProjectName, testData.getBuildType().getName());
 
         SelenideElement projectWasCreated = element(Selectors.byId("unprocessed_objectsCreated"));
         String expectedText = String.format("New project \"%s\", build configuration \"%s\" and VCS root \"%s\" have been successfully created.", testData.getProject().getName(), testData.getBuildType().getName(), url + "#refs/heads/master");
@@ -37,22 +36,23 @@ public class CreateNewUiProjectTest extends BaseUiTest {
         new ProjectsPage().open().getSubprojects();
 
         SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
-        currentProject.shouldHave(text(testData.getProject().getName()));
+        currentProject.shouldHave(text(expectedProjectName));
 
+        var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(expectedProjectName);
+        softy.assertThat(expectedProjectName).isEqualTo(fetchedProjectViaApi.getName());
     }
 
     @Test
     // Boundary values test: max characters limit for project ID (255 characters)
-    // Actually there are no limitations on UI, project can be created with ANY name
+    // Actually there are no limitations on UI, project can be created with ANY ID
     public void authorizedUserShouldBeAbleToCreateProjectWith255CharactersName() {
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         String longNumber225 = RandomData.getString225();
         testData.getProject().setName(longNumber225);
+        var expectedProjectName = testData.getProject().getName();
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
@@ -68,6 +68,8 @@ public class CreateNewUiProjectTest extends BaseUiTest {
         SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
         currentProject.shouldHave(text(testData.getProject().getName()));
 
+        var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(expectedProjectName);
+        softy.assertThat(expectedProjectName).isEqualTo(fetchedProjectViaApi.getName());
     }
 
     // ************ IN THE SECTION BELOW YOU CAN FIND NEGATIVE TEST CASES FOR PROJECT CREATION ON UI USE CASE ************

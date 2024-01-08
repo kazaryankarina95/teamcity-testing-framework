@@ -30,19 +30,16 @@ public class CreateNewProject extends Page {
         return this;
     }
 
-    public void setupProject(String projectName, String buildTypeName) {
+    public CreateNewProject setupProject(String projectName, String buildTypeName) {
         projectNameInput = element(Selectors.byId("projectName"));
         buildTypeNameInput = element(Selectors.byId("buildTypeName"));
         projectCreation = element(Selectors.byName("createProject"));
-
         projectNameInput.clear();
         projectNameInput.sendKeys(projectName);
         buildTypeNameInput.clear();
         buildTypeNameInput.sendKeys(buildTypeName);
         projectCreation.click();
         waitUntilPageIsLoaded();
-
+        return this;
     }
-
-
 }
