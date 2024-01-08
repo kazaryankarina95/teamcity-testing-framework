@@ -77,9 +77,7 @@ public class CreateNewUiProjectTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldNotBeAbleToCreateProjectWithEmptyName() {
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         testData.getProject().setName(" ");
@@ -96,9 +94,7 @@ public class CreateNewUiProjectTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldNotBeAbleToCreateProjectWithSameName() {
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         new CreateNewProject()
