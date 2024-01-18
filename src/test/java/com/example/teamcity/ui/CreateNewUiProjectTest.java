@@ -15,22 +15,22 @@ import static com.codeborne.selenide.Selenide.element;
 // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION ON UI USE CASE ************
 
 public class CreateNewUiProjectTest extends BaseUiTest {
+    private static final String URL = "https://github.com/karinakazaryan/karina.git";
     @Test
     // Main positive test: project ID with all allowed characters (latin alphanumeric, underscore, starts from latin later) is created.
     public void authorizedUserShouldBeAbleToCreateProject() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         var expectedProjectName = testData.getProject().getName();
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(expectedProjectName, testData.getBuildType().getName());
 
         SelenideElement projectWasCreated = element(Selectors.byId("unprocessed_objectsCreated"));
-        String expectedText = String.format("New project \"%s\", build configuration \"%s\" and VCS root \"%s\" have been successfully created.", testData.getProject().getName(), testData.getBuildType().getName(), url + "#refs/heads/master");
+        String expectedText = String.format("New project \"%s\", build configuration \"%s\" and VCS root \"%s\" have been successfully created.", testData.getProject().getName(), testData.getBuildType().getName(), URL + "#refs/heads/master");
         projectWasCreated.shouldHave(text(expectedText));
 
         new ProjectsPage().open().getSubprojects();
@@ -47,7 +47,6 @@ public class CreateNewUiProjectTest extends BaseUiTest {
     // Actually there are no limitations on UI, project can be created with ANY ID
     public void authorizedUserShouldBeAbleToCreateProjectWith255CharactersName() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         String longNumber225 = RandomData.getString225();
@@ -56,11 +55,11 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         SelenideElement projectWasCreated = element(Selectors.byId("unprocessed_objectsCreated"));
-        String expectedText = String.format("New project \"%s\", build configuration \"%s\" and VCS root \"%s\" have been successfully created.", testData.getProject().getName(), testData.getBuildType().getName(), url + "#refs/heads/master");
+        String expectedText = String.format("New project \"%s\", build configuration \"%s\" and VCS root \"%s\" have been successfully created.", testData.getProject().getName(), testData.getBuildType().getName(), URL + "#refs/heads/master");
         projectWasCreated.shouldHave(text(expectedText));
 
         new ProjectsPage().open().getSubprojects();
@@ -77,14 +76,13 @@ public class CreateNewUiProjectTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldNotBeAbleToCreateProjectWithEmptyName() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         testData.getProject().setName(" ");
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         SelenideElement errorMessage = element(Selectors.byId("error_projectName"));
@@ -94,19 +92,18 @@ public class CreateNewUiProjectTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldNotBeAbleToCreateProjectWithSameName() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         testData.getBuildType().setName(RandomData.getString());
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         SelenideElement errorMessage = element(Selectors.byId("error_projectName"));

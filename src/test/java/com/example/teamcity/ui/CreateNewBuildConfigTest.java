@@ -12,19 +12,18 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
 
 public class CreateNewBuildConfigTest extends BaseUiTest {
-
+    private static final String URL = "https://github.com/karinakazaryan/karina.git";
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
 
     @Test
     // In this test we create a new project with a build name > go to favorite projects > find it by name, and make sure it exists > find build by name, and make sure it exists
     public void authorizedUserShouldBeAbleToCreateBuildConfig() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         new ProjectsPage().open()
@@ -43,7 +42,6 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldBeAbleToCreateBuildConfigWithLongBuildIdContainingDifferentCharacters() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         String longNumber = RandomData.generateStringWithSpecialCharacters(280);
@@ -51,7 +49,7 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         new ProjectsPage().open()
@@ -73,14 +71,13 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
     // Create a project with Build config with empty name
     public void authorizedUserShouldNotBeAbleToCreateBuildConfigWithEmptyName() {
         var testData = TestDataStorage.addTestData();
-        var url = "https://github.com/karinakazaryan/karina.git";
         loginAsUser(testData.getUser());
 
         testData.getBuildType().setName(" ");
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         SelenideElement errorMessage = element(Selectors.byId("error_buildTypeName"));
