@@ -18,11 +18,8 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
     @Test
     // In this test we create a new project with a build name > go to favorite projects > find it by name, and make sure it exists > find build by name, and make sure it exists
     public void authorizedUserShouldBeAbleToCreateBuildConfig() {
-
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         new CreateNewProject()
@@ -45,11 +42,8 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
     @Test
     public void authorizedUserShouldBeAbleToCreateBuildConfigWithLongBuildIdContainingDifferentCharacters() {
-
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         String longNumber = RandomData.generateStringWithSpecialCharacters(280);
@@ -59,7 +53,6 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
                 .open(testData.getProject().getParentProject().getLocator())
                 .createProjectByURL(url)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
-
 
         new ProjectsPage().open()
                 .getSubprojects()
@@ -79,11 +72,8 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
     @Test
     // Create a project with Build config with empty name
     public void authorizedUserShouldNotBeAbleToCreateBuildConfigWithEmptyName() {
-
         var testData = TestDataStorage.addTestData();
-
         var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         testData.getBuildType().setName(" ");

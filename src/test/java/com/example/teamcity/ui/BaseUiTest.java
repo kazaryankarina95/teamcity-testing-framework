@@ -17,16 +17,12 @@ public class BaseUiTest extends BaseTest {
     // in TestNG framework we use @BeforeSuite since tests are run by suits
     @BeforeSuite
     public void setupUiTests() {
-
         Configuration.baseUrl = "http://" + Config.getProperties("host");
         Configuration.remote = Config.getProperties("remote");
-
         // We need to pass some Selenoid settings to Selenide for Selenoid to understand that UI also should be displayed (for us to see a browser).
         Configuration.reportsFolder = "target/surefire-reports";
         Configuration.downloadsFolder = "target/downloads";
-
         BrowserSettings.setup(Config.getProperties("browser"));
-
     }
 
     public void loginAsUser(User user) {
