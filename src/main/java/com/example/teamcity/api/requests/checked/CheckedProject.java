@@ -1,5 +1,6 @@
 package com.example.teamcity.api.requests.checked;
 
+import com.example.teamcity.api.enums.Locator;
 import com.example.teamcity.api.models.Project;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
@@ -23,9 +24,9 @@ public class CheckedProject extends Request implements CrudInterface {
     }
 
     @Override
-    public Project get(String id) {
+    public Project get(Locator locator, String entityByNameOrId) {
         return new UncheckedProject(spec)
-                .get(id)
+                .get(locator, entityByNameOrId)
                 .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().as(Project.class);
     }

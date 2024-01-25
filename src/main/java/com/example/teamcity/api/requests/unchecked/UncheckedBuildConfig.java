@@ -1,5 +1,6 @@
 package com.example.teamcity.api.requests.unchecked;
 
+import com.example.teamcity.api.enums.Locator;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import io.restassured.http.ContentType;
@@ -29,7 +30,7 @@ public class UncheckedBuildConfig extends Request implements CrudInterface {
     }
 
     @Override
-    public Object get(String id) {
+    public Object get(Locator locator, String entityByNameOrId) {
         return null;
     }
 
