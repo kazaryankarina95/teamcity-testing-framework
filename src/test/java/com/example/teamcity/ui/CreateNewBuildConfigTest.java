@@ -12,7 +12,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
 
 public class CreateNewBuildConfigTest extends BaseUiTest {
-    private static final String URL = "https://github.com/karinakazaryan/karina.git";
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
 
     @Test
@@ -23,7 +22,7 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(URL)
+                .createProjectByURL(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         new ProjectsPage().open()
@@ -49,7 +48,7 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(URL)
+                .createProjectByURL(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         new ProjectsPage().open()
@@ -77,7 +76,7 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(URL)
+                .createProjectByURL(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         SelenideElement errorMessage = element(Selectors.byId("error_buildTypeName"));
