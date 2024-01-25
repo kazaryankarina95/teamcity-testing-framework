@@ -22,14 +22,14 @@ public class TestDataStorage {
     }
 
     // we don`t pass test data by default
-    public TestData addTestData() {
+    public static TestData addTestData() {
         var testData = TestDataGenerator.generate();
         addTestData(testData);
         return testData;
     }
 
     // we pass test data
-    public TestData addTestData(TestData testData) {
+    public static TestData addTestData(TestData testData) {
         getStorage().testDataList.add(testData);
         return testData;
 
