@@ -116,6 +116,10 @@
                             <value>${project.build.directory}/allure-results</value>
                         </property>
                     </systemProperties>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testing.suites/api-suite.xml</suiteXmlFile>
+                        <suiteXmlFile>testing.suites/ui-suite.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
                 <dependencies>
                     <dependency>
