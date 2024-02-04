@@ -21,7 +21,7 @@ public class StartUpPage extends Page {
     private SelenideElement backupFileUploaded = element("input[id='backup']");
 
     public StartUpPage open() {
-        Selenide.open("/");
+        Selenide.open("http://192.168.0.189:8111");
         return this;
     }
 
