@@ -1,6 +1,7 @@
 package com.example.teamcity.ui.pages.admin;
 
 import com.codeborne.selenide.Condition;
+import com.example.teamcity.api.config.Config;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.example.teamcity.ui.Selectors;
@@ -21,7 +22,7 @@ public class StartUpPage extends Page {
     private SelenideElement backupFileUploaded = element("input[id='backup']");
 
     public StartUpPage open() {
-        Selenide.open("http://192.168.0.189:8111");
+        Selenide.open("http://" + Config.getProperties("host"));
         return this;
     }
 
