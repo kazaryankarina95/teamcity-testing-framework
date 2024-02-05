@@ -50,7 +50,7 @@ jobs:
           jetbrains/teamcity-server:2023.11.1
 
       - name: Set up TeamCity Server
-        run: ./mvnw clean test -Dtest=startUpTest#setupTeamCityServer
+        run: ./mvnw clean test -Dtest=SetupTest#startUpTest
 
       - name: Set up superUserToken environment variable
         run: echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
