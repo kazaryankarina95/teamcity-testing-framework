@@ -1,2 +1,19 @@
+PUT http://admin:admin@10.10.57.136:8111/app/rest/agents/ip_192.168.65.1-1/authorizedInfo
+Content-Type: application/json
+Accept: application/json
+X-TC-CSRF-Token: c6b36b5b-64db-41b1-b7fd-f6eafb2f7a16
+
+{
+  "comment" : {
+    "text" : "text"
+  },
+  "status" : true
+}
+
+###
+GET http://admin:admin@10.10.57.136:8111/app/rest/agents?locator=authorized:any
+Accept: application/json
+
+###
 GET http://admin:admin@10.10.57.11:8111/app/rest/buildTypes/id:id
 Accept: application/json
