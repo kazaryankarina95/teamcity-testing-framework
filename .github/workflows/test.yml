@@ -24,6 +24,9 @@ jobs:
       - name: Set up host config.properties
         run: echo "host=$HOST:8111" >> src/main/resources/config.properties
 
+      - name: Set up host config.properties
+        run: echo "serverUrl=$HOST:8111" >> tmp/teamcity_agent/conf/buildAgent.properties
+
       - name: Set up remote config.properties
         run: echo "remote=http://$HOST:4444/wd/hub" >> src/main/resources/config.properties
 
