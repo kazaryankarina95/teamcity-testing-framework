@@ -60,14 +60,14 @@ public class AgentRequests extends Request implements CrudInterface {
                 }
                 """;
         System.out.println(payload);
-        String s = "http://:" + Config.getProperties("superUserToken") + "@" + Config.getProperties("host") + AGENT_ENDPOINT + "/" + name + "/authorizedInfo";
-        System.out.println(s);
+        String urlToAuthorizeAgent = "http://:" + Config.getProperties("superUserToken") + "@" + Config.getProperties("host") + AGENT_ENDPOINT + "/" + name + "/authorizedInfo";
+        System.out.println(urlToAuthorizeAgent);
 
         return given()
                 .spec(spec)
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .body(payload)
-                .put(s);
+                .put(urlToAuthorizeAgent);
     }
 }
