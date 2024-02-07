@@ -24,12 +24,13 @@ jobs:
       - name: Set up host config.properties
         run: echo "host=$HOST:8111" >> src/main/resources/config.properties
 
+
       - name: Pull Selenoid Chrome/Firefox/..
         run: docker pull selenoid/vnc_chrome:119.0
 
       - name: Run Selenoid
         run: |
-          docker run -d --name selenoid \
+          docker run --name selenoid \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v $(pwd)/config/:/etc/selenoid/:ro \
           -p 4444:4444 \
