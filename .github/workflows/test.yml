@@ -28,7 +28,7 @@ jobs:
         run: echo "remote=$HOST:4444/wd/hub" >> src/main/resources/config.properties
 
       - name: Set up browser config.properties
-        run: echo "browser=firefox" >> src/main/resources/config.properties
+        run: echo "browser=chrome" >> src/main/resources/config.properties
 
       - name: Pull Selenoid Chrome/Firefox/..
         run: docker pull selenoid/vnc_chrome:119.0
