@@ -9,13 +9,6 @@ import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 
 public class StartUpAgentTest extends BaseApiTest {
-
-/*    @BeforeClass
-    public static void setUp() {
-        Configuration.remote = Config.getProperties("remote");
-        Configuration.browser = Config.getProperties("browser");
-    } */
-
     @Test
     @Tag("Regression")
     public void authorizeAgentTest() {

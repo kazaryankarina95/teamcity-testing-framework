@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 
 public class SetupTest extends BaseUiTest {
-
-
     @Test
     @Tag("Regression")
     public void startUpServerTest() {
