@@ -7,12 +7,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class    BaseTest {
-    @BeforeEach
-    public void setUp() {
-        Configuration.headless = true;
-        Configuration.browser = "firefox";
-    }
-
     protected SoftAssertions softy;
 
     @BeforeMethod
