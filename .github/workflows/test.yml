@@ -56,6 +56,14 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server:2023.11.1
 
+      - name: Run TeamCity Server DEBUG
+        run: |
+          ls $(pwd)
+
+      - name: Run TeamCity Server DEBUG2
+        run: |
+          ls $(pwd)/tmp
+
       - name: Set up TeamCity Server
         run: ./mvnw clean test -Dtest=SetupTest#startUpServerTest
 
@@ -66,20 +74,15 @@ jobs:
       - name: Set up superUserToken config property
         run: echo "superUserToken=$SUPER_USER_TOKEN" >> src/main/resources/config.properties
 
+      - name: Run TeamCity Server DEBUG2
+        run: |
+          ls $(pwd)/tmp/teamcity_agent/conf
+
       - name: Run TeamCity agent
         run: |
           docker run -e SERVER_URL=http://$HOST:8111 -u 0 -d --name teamcity-agent \
           -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
           jetbrains/teamcity-agent:2023.11.1  
-
-      - name: Run TeamCity agent007
-        run: |
-          docker run -e SERVER_URL=http://$HOST:8111 -u 0 -d --name teamcity-agent007 \
-          -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
-          jetbrains/teamcity-agent:2023.11.1  
-
-      - name: Debug TeamCity Agent
-        run: echo $HOST && echo "!!!!!!!! $(pwd)"
           
       - name: Set up TeamCity agent
         run: ./mvnw test -Dtest=com.example.teamcity.StartUpAgentTest#authorizeAgentTest
