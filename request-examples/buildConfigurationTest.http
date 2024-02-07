@@ -1,5 +1,5 @@
 ### 0: Generate token
-GET http://admin:admin@10.10.57.11:8111/authenticationTest.html?csrf
+GET http://admin:admin@10.10.57.136:8111/authenticationTest.html?csrf
 Accept: application/json
 
 ### 1: Create project
