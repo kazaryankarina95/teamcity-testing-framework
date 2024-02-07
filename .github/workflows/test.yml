@@ -76,7 +76,7 @@ jobs:
         run: ./mvnw test -Dtest=com.example.teamcity.StartUpAgentTest#authorizeAgentTest
 
       - name: Run API suite tests
-        run: ./mvnw test -DsuiteXmlFile=$testing-suites/api.suite.xml
+        run: ./mvnw test -DsuiteXmlFile=testing-suites/api-suite.xml
 
       - name: Run API suite tests
-        run: ./mvnw test -DsuiteXmlFile=$testing-suites/ui.suite.xml
+        run: ./mvnw test -DsuiteXmlFile=testing-suites/ui-suite.xml
