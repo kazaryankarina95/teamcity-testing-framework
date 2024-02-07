@@ -1,5 +1,6 @@
-package com.example.teamcity.api;
+package com.example.teamcity;
 
+import com.example.teamcity.api.BaseApiTest;
 import com.example.teamcity.api.models.Agent;
 import com.example.teamcity.api.models.AgentList;
 import com.example.teamcity.api.requests.AgentRequests;
@@ -10,7 +11,7 @@ import org.testng.annotations.Test;
 
 public class StartUpAgentTest extends BaseApiTest {
     @Test
-    @Tag("Regression")
+    @Tag("SetupTest")
     public void authorizeAgentTest() {
         var requestedAgent = new AgentRequests(Specifications.getSpec().superUserSpec());
         AgentList listOfAgents = requestedAgent.get();
