@@ -1,13 +1,11 @@
 package com.example.teamcity.api;
 
-import com.codeborne.selenide.Configuration;
-import com.example.teamcity.api.config.Config;
 import com.example.teamcity.api.models.Agent;
 import com.example.teamcity.api.models.AgentList;
 import com.example.teamcity.api.requests.AgentRequests;
 import com.example.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
-import org.testng.annotations.BeforeClass;
+import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 
 public class StartUpAgentTest extends BaseApiTest {
@@ -19,6 +17,7 @@ public class StartUpAgentTest extends BaseApiTest {
     } */
 
     @Test
+    @Tag("Regression")
     public void authorizeAgentTest() {
         var requestedAgent = new AgentRequests(Specifications.getSpec().superUserSpec());
         AgentList listOfAgents = requestedAgent.get();
@@ -28,10 +27,8 @@ public class StartUpAgentTest extends BaseApiTest {
         var defaultAgentName = defaultAgent.getName();
         System.out.println(defaultAgentName);
 
-        var authorizedAgent = requestedAgent.put(defaultAgentName)
+        requestedAgent.put(defaultAgentName)
         .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().asString();
-
-       // System.out.println("Response body: " + authorizedAgent.getBody().asString());
     }
 }
