@@ -75,5 +75,8 @@ jobs:
       - name: Set up TeamCity agent
         run: ./mvnw test -Dtest=com.example.teamcity.api.StartUpAgentTest#authorizeAgentTest
 
-      - name: Run tests
-        run: ./mvnw test -Dgroups=Regression
+      - name: Run API suite tests
+        run: ./mvnw test -DsuiteXmlFile=$testing-suites/api.suite.xml
+
+      - name: Run API suite tests
+        run: ./mvnw test -DsuiteXmlFile=$testing-suites/ui.suite.xml
