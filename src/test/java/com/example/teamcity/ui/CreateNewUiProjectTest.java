@@ -39,15 +39,7 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new ProjectsPage().open().getSubprojects();
 
-        try {
-            // wait for 5 seconds
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            // handle the exception
-            e.printStackTrace();
-        }
-
-        SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
+        SelenideElement currentProject = element(Selectors.byClass("Subproject__summaryWrapper--UW"));
         currentProject.shouldHave(text(expectedProjectName));
 
         var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_NAME, expectedProjectName);
@@ -84,15 +76,7 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new ProjectsPage().open().getSubprojects();
 
-        try {
-            // wait for 5 seconds
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            // handle the exception
-            e.printStackTrace();
-        }
-
-        SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
+        SelenideElement currentProject = element(Selectors.byClass("Subproject__summaryWrapper--UW"));
         currentProject.shouldHave(text(testData.getProject().getName()));
 
         var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_NAME, expectedProjectName);
