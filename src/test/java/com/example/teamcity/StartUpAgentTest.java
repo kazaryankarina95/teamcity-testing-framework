@@ -25,7 +25,7 @@ public class StartUpAgentTest extends BaseApiTest {
 
             // If list is empty, wait for a while before next try
             try {
-                Thread.sleep(500); // Sleep for 500 milliseconds before next try
+                Thread.sleep(5000); // Sleep for 500 milliseconds before next try
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
