@@ -3,7 +3,7 @@
     "default": "89.0",
     "versions": {
       "89.0": {
-        "image": "selenoid/vnc:firefox_89.0",
+        "image": "selenoid/vnc_firefox:89.0",
         "port": "4444",
         "path": "/wd/hub"
       }
@@ -23,7 +23,7 @@
     "default": "76.0",
     "versions": {
       "76.0": {
-        "image": "selenoid/vnc:opera_76.0",
+        "image": "selenoid/vnc_opera:76.0",
         "port": "4444",
         "path": "/wd/hub"
       }
