@@ -30,8 +30,8 @@ jobs:
       - name: Set up browser config.properties
         run: echo "browser=chrome" >> src/main/resources/config.properties
 
-      - name: Pull Selenoid Chrome
-        run: docker pull selenoid/vnc_chrome:119.0
+      - name: Pull Selenoid Firefox
+        run: docker pull selenoid/vnc_firefox:121.0
 
       - name: Run Selenoid
         run: |
