@@ -24,14 +24,17 @@ jobs:
       - name: Set up host config.properties
         run: echo "host=$HOST:8111" >> src/main/resources/config.properties
 
+      - name: Set up agent config.properties
+        run: echo "serverUrl=$HOST:8111" >> tmp/teamcity_agent/conf/buildAgent.properties
+
       - name: Set up remote config.properties
         run: echo "remote=http://$HOST:4444/wd/hub" >> src/main/resources/config.properties
 
       - name: Set up browser config.properties
         run: echo "browser=chrome" >> src/main/resources/config.properties
 
-      - name: Pull Selenoid Chrome
-        run: docker pull selenoid/vnc_chrome:119.0
+      - name: Pull Selenoid Firefox
+        run: docker pull selenoid/vnc_firefox:121.0
 
       - name: Run Selenoid
         run: |
