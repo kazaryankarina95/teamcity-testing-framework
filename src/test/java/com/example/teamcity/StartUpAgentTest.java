@@ -16,7 +16,7 @@ public class StartUpAgentTest extends BaseApiTest {
         var requestedAgent = new AgentRequests(Specifications.getSpec().superUserSpec());
         try {
             // wait for 5 seconds
-            Thread.sleep(60000);
+            Thread.sleep(30000);
         } catch (InterruptedException e) {
             // handle the exception
             e.printStackTrace();
