@@ -39,7 +39,7 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new ProjectsPage().open().getSubprojects();
 
-        SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
+        SelenideElement currentProject = element(Selectors.byClass("Subproject__entityContainer--uV"));
         currentProject.shouldHave(text(expectedProjectName));
 
         var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_NAME, expectedProjectName);
@@ -79,7 +79,7 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new ProjectsPage().open().getSubprojects();
 
-        SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
+        SelenideElement currentProject = element(Selectors.byClass("Subproject__entityContainer--uV"));
         currentProject.shouldHave(text(testData.getProject().getName()));
 
         var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_NAME, expectedProjectName);
