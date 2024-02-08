@@ -39,14 +39,19 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new ProjectsPage().open().getSubprojects();
 
-        SelenideElement currentProject = element(Selectors.byClass("Subproject__entityContainer--uV"));
+        try {
+            // wait for 5 seconds
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            // handle the exception
+            e.printStackTrace();
+        }
+
+        SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
         currentProject.shouldHave(text(expectedProjectName));
 
         var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_NAME, expectedProjectName);
         softy.assertThat(expectedProjectName).isEqualTo(fetchedProjectViaApi.getName());
-
-     /*   var fetchedProjectViaApi2 = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_ID, expectedProjectId);
-        softy.assertThat(expectedProjectId).isEqualTo(fetchedProjectViaApi2.getId()); */
 
         var nameOfFetchedProjectViaApi = fetchedProjectViaApi.getName();
         nameOfFetchedProjectViaApi = Character.toLowerCase(nameOfFetchedProjectViaApi.charAt(0)) + nameOfFetchedProjectViaApi.substring(1);
@@ -79,7 +84,15 @@ public class CreateNewUiProjectTest extends BaseUiTest {
 
         new ProjectsPage().open().getSubprojects();
 
-        SelenideElement currentProject = element(Selectors.byClass("Subproject__entityContainer--uV"));
+        try {
+            // wait for 5 seconds
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            // handle the exception
+            e.printStackTrace();
+        }
+
+        SelenideElement currentProject = element(Selectors.byClass("Subproject__entity--nm"));
         currentProject.shouldHave(text(testData.getProject().getName()));
 
         var fetchedProjectViaApi = new CheckedProject(Specifications.getSpec().authSpec(testData.getUser())).get(Locator.BY_NAME, expectedProjectName);
