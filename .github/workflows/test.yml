@@ -24,9 +24,6 @@ jobs:
       - name: Set up host config.properties
         run: echo "host=$HOST:8111" >> src/main/resources/config.properties
 
-      - name: Set up agent config.properties
-        run: echo "serverUrl=$HOST:8111" >> tmp/teamcity_agent/conf/buildAgent.properties
-
       - name: Set up remote config.properties
         run: echo "remote=http://$HOST:4444/wd/hub" >> src/main/resources/config.properties
 
@@ -59,27 +56,14 @@ jobs:
           -p 8111:8111 \
           jetbrains/teamcity-server:2023.11.1
 
-      - name: Run TeamCity Server DEBUG
-        run: |
-          ls $(pwd)
-
-      - name: Run TeamCity Server DEBUG2
-        run: |
-          ls $(pwd)/tmp
-
       - name: Set up TeamCity Server
         run: ./mvnw clean test -Dtest=SetupTest#startUpServerTest
 
       - name: Set up superUserToken environment variable
         run: echo "SUPER_USER_TOKEN=$(docker logs teamcity-server | grep 'Super user authentication token' | tail -n 1 | awk '{print $6}')" >> $GITHUB_ENV
 
-
       - name: Set up superUserToken config property
         run: echo "superUserToken=$SUPER_USER_TOKEN" >> src/main/resources/config.properties
-
-      - name: Run TeamCity Server DEBUG2
-        run: |
-          ls $(pwd)/tmp/teamcity_agent/conf
 
       - name: Run TeamCity agent
         run: |
