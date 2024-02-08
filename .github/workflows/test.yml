@@ -75,10 +75,10 @@ jobs:
           jetbrains/teamcity-agent:2023.11.1  
           
       - name: Set up TeamCity agent
-        run: ./mvnw - X test -Dtest=com.example.teamcity.StartUpAgentTest#authorizeAgentTest
+        run: ./mvnw test -Dtest=com.example.teamcity.StartUpAgentTest#authorizeAgentTest
 
       - name: Run API suite
-        run: ./mvnw - X test -DsuiteXmlFile=testing-suites/api-suite.xml
+        run: ./mvnw -X test -DsuiteXmlFile=testing-suites/api-suite.xml
 
       - name: Run UI suite
-        run: ./mvnw - X test -DsuiteXmlFile=testing-suites/ui-suite.xml
+        run: ./mvnw -X test -DsuiteXmlFile=testing-suites/ui-suite.xml
