@@ -13,7 +13,7 @@ public class ProjectsPage extends FavoritesPage {
     public static final String FAVORITE_PROJECTS_URL = "/favorite/projects";
 
     // we have got a list of elements from Selenide collection
-    private ElementsCollection subprojects = elements(Selectors.byClass("Subproject__container--WE"));
+    private ElementsCollection subprojects = elements(Selectors.byClass("Details__heading--id Subproject__line--pR CollapsibleLine__line--fP"));
 
     // but we want to get List<ProjectElement>. So we need to get data from <ElementCollection> to List<ProjectElement>
     public ProjectsPage open() {
