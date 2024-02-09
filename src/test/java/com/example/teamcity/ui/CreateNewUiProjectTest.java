@@ -122,5 +122,3 @@ public class CreateNewUiProjectTest extends BaseUiTest {
         errorMessage.shouldHave(text("Project with this name already exists: " + testData.getProject().getName()));
     }
 }
-
-
