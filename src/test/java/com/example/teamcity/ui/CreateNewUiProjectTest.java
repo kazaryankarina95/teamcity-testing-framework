@@ -13,9 +13,9 @@ import org.testng.annotations.Test;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
 
-// ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION ON UI USE CASE ************
-
 public class CreateNewUiProjectTest extends BaseUiTest {
+
+    // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION ON UI USE CASE ************
 
     @Test
     // Main positive test: project ID with all allowed characters (latin alphanumeric, underscore, starts from latin later) is created.

@@ -31,6 +31,5 @@ public class RunUiBuildConfigTest extends BaseUiTest {
 
         SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
         buildWasCreated.shouldHave(text(testData.getProject().getName()));
-
     }
 }

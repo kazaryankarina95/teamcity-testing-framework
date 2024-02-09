@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
 
 public class CreateNewBuildConfigTest extends BaseUiTest {
+
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
 
     @Test
@@ -35,7 +36,6 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
         buildWasCreated.shouldHave(text(testData.getProject().getName()));
-
     }
 
     @Test
@@ -61,7 +61,6 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
         buildWasCreated.shouldHave(text(testData.getProject().getName()));
-
     }
 
     // ************ IN THE SECTION BELOW YOU CAN FIND NEGATIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
@@ -81,7 +80,5 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         SelenideElement errorMessage = element(Selectors.byId("error_buildTypeName"));
         errorMessage.shouldHave(Condition.text("Build configuration name must not be empty"));
-
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.teamcity;
+package com.example.teamcity.setup;
 
 import com.codeborne.selenide.Condition;
 import com.example.teamcity.ui.BaseUiTest;

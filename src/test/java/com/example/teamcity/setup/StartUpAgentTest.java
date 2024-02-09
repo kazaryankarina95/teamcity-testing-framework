@@ -1,4 +1,4 @@
-package com.example.teamcity;
+package com.example.teamcity.setup;
 
 import com.example.teamcity.api.BaseApiTest;
 import com.example.teamcity.api.models.Agent;
@@ -29,7 +29,7 @@ public class StartUpAgentTest extends BaseApiTest {
         System.out.println(defaultAgentName);
 
         requestedAgent.put(defaultAgentName)
-        .then().assertThat().statusCode(HttpStatus.SC_OK)
+                .then().assertThat().statusCode(HttpStatus.SC_OK)
                 .extract().asString();
     }
 }
