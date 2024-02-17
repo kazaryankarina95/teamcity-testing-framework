@@ -1,5 +1,6 @@
 package com.example.teamcity.api.requests.unchecked;
 
+import com.example.teamcity.api.enums.Locator;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import io.restassured.response.Response;
@@ -25,7 +26,7 @@ public class UncheckedUser extends Request implements CrudInterface {
     }
 
     @Override
-    public Response get(String id) {
+    public Response get(Locator locator, String entityByNameOrId) {
         return null;
     }
 

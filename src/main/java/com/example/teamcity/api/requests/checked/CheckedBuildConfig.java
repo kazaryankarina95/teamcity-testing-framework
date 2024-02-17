@@ -1,5 +1,6 @@
 package com.example.teamcity.api.requests.checked;
 
+import com.example.teamcity.api.enums.Locator;
 import com.example.teamcity.api.models.BuildType;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
@@ -22,7 +23,7 @@ public class CheckedBuildConfig extends Request implements CrudInterface {
     }
 
     @Override
-    public Object get(String id) {
+    public Object get(Locator locator, String entityByNameOrId) {
         return null;
     }
 

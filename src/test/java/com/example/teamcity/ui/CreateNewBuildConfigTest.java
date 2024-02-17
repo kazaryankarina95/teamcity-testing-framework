@@ -18,16 +18,12 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
     @Test
     // In this test we create a new project with a build name > go to favorite projects > find it by name, and make sure it exists > find build by name, and make sure it exists
     public void authorizedUserShouldBeAbleToCreateBuildConfig() {
-
         var testData = TestDataStorage.addTestData();
-
-        var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         new ProjectsPage().open()
@@ -40,16 +36,11 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
         buildWasCreated.shouldHave(text(testData.getProject().getName()));
-
     }
 
     @Test
     public void authorizedUserShouldBeAbleToCreateBuildConfigWithLongBuildIdContainingDifferentCharacters() {
-
         var testData = TestDataStorage.addTestData();
-
-        var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         String longNumber = RandomData.generateStringWithSpecialCharacters(280);
@@ -57,9 +48,8 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
-
 
         new ProjectsPage().open()
                 .getSubprojects()
@@ -71,7 +61,6 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
 
         SelenideElement buildWasCreated = element(Selectors.byClass("MiddleEllipsis__searchable--uZ"));
         buildWasCreated.shouldHave(text(testData.getProject().getName()));
-
     }
 
     // ************ IN THE SECTION BELOW YOU CAN FIND NEGATIVE TEST CASES FOR BUILD CONFIGURATION ON UI USE CASE ************
@@ -79,23 +68,17 @@ public class CreateNewBuildConfigTest extends BaseUiTest {
     @Test
     // Create a project with Build config with empty name
     public void authorizedUserShouldNotBeAbleToCreateBuildConfigWithEmptyName() {
-
         var testData = TestDataStorage.addTestData();
-
-        var url = "https://github.com/karinakazaryan/karina.git";
-
         loginAsUser(testData.getUser());
 
         testData.getBuildType().setName(" ");
 
         new CreateNewProject()
                 .open(testData.getProject().getParentProject().getLocator())
-                .createProjectByURL(url)
+                .createProjectByURL(GIT_URL)
                 .setupProject(testData.getProject().getName(), testData.getBuildType().getName());
 
         SelenideElement errorMessage = element(Selectors.byId("error_buildTypeName"));
         errorMessage.shouldHave(Condition.text("Build configuration name must not be empty"));
-
     }
-
 }

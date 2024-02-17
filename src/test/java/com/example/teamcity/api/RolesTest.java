@@ -1,6 +1,8 @@
 package com.example.teamcity.api;
 
+import com.example.teamcity.api.enums.Locator;
 import com.example.teamcity.api.enums.Role;
+import com.example.teamcity.api.generators.TestData;
 import com.example.teamcity.api.generators.TestDataGenerator;
 import com.example.teamcity.api.requests.CheckedRequests;
 import com.example.teamcity.api.requests.checked.CheckedBuildConfig;
@@ -24,7 +26,8 @@ public class RolesTest extends BaseApiTest {
                 .body(Matchers.containsString("Authentication required"));
 
         uncheckedWithSuperUser.getProjectRequest()
-                .get(testData.getProject().getId())
+                // get method is incorrect now. Will need to figure out how to improve it
+                .get(Locator.BY_ID, "id")
                 .then().assertThat().statusCode(HttpStatus.SC_NOT_FOUND)
                 .body(Matchers.containsString("No project found by locator 'count:1,id:" + testData.getProject().getId() + "'"));
     }

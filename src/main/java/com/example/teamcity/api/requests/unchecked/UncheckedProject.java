@@ -1,5 +1,6 @@
 package com.example.teamcity.api.requests.unchecked;
 
+import com.example.teamcity.api.enums.Locator;
 import com.example.teamcity.api.requests.CrudInterface;
 import com.example.teamcity.api.requests.Request;
 import io.restassured.response.Response;
@@ -25,10 +26,10 @@ public class UncheckedProject extends Request implements CrudInterface {
     }
 // teamcity spec https://www.jetbrains.com/help/teamcity/rest/get-project-details.html
     @Override
-    public Response get(String name) {
+    public Response get(Locator locator, String entityByNameOrId) {
         return given()
                 .spec(spec)
-                .get(PROJECT_ENDPOINT + "/name:" + name);
+                .get(PROJECT_ENDPOINT + "/" + locator.getByNameOrId() + ":" + entityByNameOrId);
     }
 
     @Override
