@@ -82,3 +82,28 @@ jobs:
 
       - name: Run UI suite
         run: ./mvnw -X test -DsuiteXmlFile=testing-suites/ui-suite.xml
+
+      # the following steps below create and publish test history in Allure: https://allurereport.org/docs/integrations-github/
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: target/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: $
+          publish_branch: gh-pages
+          publish_dir: allure-history
