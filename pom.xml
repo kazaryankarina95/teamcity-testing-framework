@@ -16,6 +16,7 @@
         <junit.version>5.10.0</junit.version>
         <aspectj.version>1.9.19</aspectj.version>
         <allure.version>2.24.0</allure.version>
+        <allure-maven.version>2.12.0</allure-maven.version>
         <rest-assured.version>5.1.1</rest-assured.version>
         <lombok.version>1.18.30</lombok.version>
         <jackson-annotations.version>2.15.2</jackson-annotations.version>
@@ -112,7 +113,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
@@ -141,7 +141,7 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.12.0</version>
+                <version>${allure-maven.version}</version>
             </plugin>
         </plugins>
     </build>
