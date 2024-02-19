@@ -13,4 +13,6 @@ public class Agent {
     private String id;
     private String name;
     private Integer typeId;
+    private String href;
+    private String webUrl;
 }
