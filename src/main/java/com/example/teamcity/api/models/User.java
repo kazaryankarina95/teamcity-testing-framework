@@ -12,7 +12,7 @@ import java.util.Properties;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties("properties")
+@JsonIgnoreProperties({"name", "lastLogin", "hasPassword", "realm", "href", "locator", "avatars", "enabled2FA", "properties", "groups"})
 public class User {
     // here we can find how to name fields correctly: https://www.jetbrains.com/help/teamcity/rest/user.html
     private String username;
@@ -20,6 +20,4 @@ public class User {
     private String email;
     private Roles roles;
     private Long id;
-    private String href;
-    private String locator;
 }
