@@ -1,4 +1,5 @@
 package com.example.teamcity.api.models;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.Properties;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties("properties")
 public class User {
     // here we can find how to name fields correctly: https://www.jetbrains.com/help/teamcity/rest/user.html
     private String username;
@@ -20,5 +22,4 @@ public class User {
     private Long id;
     private String href;
     private String locator;
-    private Properties properties;
 }
