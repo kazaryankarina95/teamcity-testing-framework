@@ -15,6 +15,5 @@ public class User {
     private String email;
     private Roles roles;
     private Long id;
-
-
+    private String href;
 }
