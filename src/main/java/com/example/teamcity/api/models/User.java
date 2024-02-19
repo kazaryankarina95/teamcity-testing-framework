@@ -19,6 +19,6 @@ public class User {
     private Roles roles;
     private Long id;
     private String href;
-    private List<Property> properties;
     private String locator;
+    private Properties properties;
 }

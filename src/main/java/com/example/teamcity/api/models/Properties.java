@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.lang.reflect.Type;
+import java.util.List;
 
 @Builder
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Property {
-    private String name;
-    private String value;
-    private Boolean inherited;
-    private Type type;
+@NoArgsConstructor
+public class Properties {
+    private int count;
+    private String href;
+    private List<Property> properties;
 }
