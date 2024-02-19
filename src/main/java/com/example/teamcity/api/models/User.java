@@ -1,10 +1,10 @@
 package com.example.teamcity.api.models;
-import com.example.teamcity.api.enums.Locator;
 import lombok.Data;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Properties;
 
 @Builder
@@ -19,6 +19,6 @@ public class User {
     private Roles roles;
     private Long id;
     private String href;
-    private Properties properties;
+    private List<Property> properties;
     private String locator;
 }
