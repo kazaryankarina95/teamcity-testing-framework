@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"projectName", "projectId", "href", "webUrl", "buildTypeId", "parentProjectId", "templates", "vcs-root-entries", ""})
+@JsonIgnoreProperties({"projectName", "projectId", "href", "webUrl", "buildTypeId", "parentProjectId", "templates", "vcs-root-entries", "settings"})
 public class BuildType {
     // https://www.jetbrains.com/help/teamcity/rest/buildtype.html
     private String id;
