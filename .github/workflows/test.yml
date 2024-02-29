@@ -78,10 +78,10 @@ jobs:
         run: ./mvnw test -Dtest=com.example.teamcity.setup.StartUpAgentTest#authorizeAgentTest
 
       - name: Run API suite
-        run: ./mvnw test -DsuiteXmlFile=testing-suites/api-suite.xml
+        run: ./mvnw test -DsuiteXmlFile=testng-suites/api-suite.xml
 
       - name: Run UI suite
-        run: ./mvnw test -DsuiteXmlFile=testing-suites/ui-suite.xml
+        run: ./mvnw test -DsuiteXmlFile=testng-suites/ui-suite.xml
 
       # the following steps below create and publish test history in Allure: https://allurereport.org/docs/integrations-github/
       - name: Load test report history
@@ -104,7 +104,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.9.2
         if: always()
         with:
-          github_token: $
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
 
