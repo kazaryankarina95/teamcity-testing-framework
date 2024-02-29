@@ -79,9 +79,11 @@ jobs:
 
       - name: Run API suite
         run: ./mvnw test -DsuiteXmlFile=testing-suites/api-suite.xml
+        timeout-minutes: 10
 
       - name: Run UI suite
         run: ./mvnw test -DsuiteXmlFile=testing-suites/ui-suite.xml
+        timeout-minutes: 10
 
       # the following steps below create and publish test history in Allure: https://allurereport.org/docs/integrations-github/
       - name: Load test report history
