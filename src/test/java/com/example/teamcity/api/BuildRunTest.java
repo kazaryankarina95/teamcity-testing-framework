@@ -4,10 +4,16 @@ import com.example.teamcity.api.requests.checked.CheckedBuildConfig;
 import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.checked.CheckedUser;
 import com.example.teamcity.api.spec.Specifications;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
+@Epic("API tests")
+@Feature("Running build config")
+@Story("Running build config")
 public class BuildRunTest extends BaseApiTest {
 
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION USE CASE ************

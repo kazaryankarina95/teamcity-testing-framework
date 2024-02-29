@@ -5,11 +5,17 @@ import com.codeborne.selenide.SelenideElement;
 import com.example.teamcity.api.generators.TestDataStorage;
 import com.example.teamcity.ui.pages.admin.CreateNewProject;
 import com.example.teamcity.ui.pages.favorites.ProjectsPage;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
 
+@Epic("UI tests")
+@Feature("Running build config")
+@Story("Running build config")
 public class RunUiBuildConfigTest extends BaseUiTest {
     @Test
     public void authorizedUserShouldBeAbleToRunBuildConfig() {

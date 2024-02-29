@@ -6,6 +6,9 @@ import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.checked.CheckedUser;
 import com.example.teamcity.api.requests.unchecked.UncheckedProject;
 import com.example.teamcity.api.spec.Specifications;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
@@ -18,6 +21,9 @@ import static com.example.teamcity.api.errors.Errors.PROJECT_NAME_CANT_BE_NULL;
 import static com.example.teamcity.api.errors.Errors.PROJECT_NAME_CANT_BE_EMPTY;
 import static com.example.teamcity.api.errors.Errors.PROJECT_WITH_WRONG_ROOT;
 
+@Epic("API tests")
+@Feature("Project creation")
+@Story("Creating project")
 public class ProjectTest extends BaseApiTest {
 
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION USE CASE ************
