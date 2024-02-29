@@ -6,12 +6,10 @@ import com.example.teamcity.api.models.AgentList;
 import com.example.teamcity.api.requests.AgentRequests;
 import com.example.teamcity.api.spec.Specifications;
 import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 
 public class StartUpAgentTest extends BaseApiTest {
     @Test
-    @Tag("SetupTest")
     public void authorizeAgentTest() {
         var requestedAgent = new AgentRequests(Specifications.getSpec().superUserSpec());
         try {
