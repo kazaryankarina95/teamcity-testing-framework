@@ -1,0 +1,8 @@
+"Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
+"API tests","Project creation","Creating project","0","0","13","0","0"
+"UI tests","Project creation","Creating project","0","0","4","0","0"
+"API tests","Build configuration","Creating build config","0","0","10","0","0"
+"UI tests","Build configuration","Creating build config","2","1","0","0","0"
+"API tests","Running build config","Running build config","0","0","1","0","0"
+"","","","0","0","2","0","0"
+"UI tests","Running build config","Running build config","0","1","0","0","0"
