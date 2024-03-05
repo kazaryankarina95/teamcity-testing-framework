@@ -6,6 +6,9 @@ import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.requests.checked.CheckedUser;
 import com.example.teamcity.api.requests.unchecked.UncheckedBuildConfig;
 import com.example.teamcity.api.spec.Specifications;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
@@ -18,6 +21,9 @@ import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_ID_IS_USED;
 import static com.example.teamcity.api.errors.Errors.BUILD_CONFIG_NAME_SHOULD_BE_PROVIDED;
 import static com.example.teamcity.api.generators.RandomData.generateStringWithSpecialCharacters;
 
+@Epic("API tests")
+@Feature("Build configuration")
+@Story("Creating build config")
 public class BuildConfigurationTest extends BaseApiTest {
 
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION USE CASE ************

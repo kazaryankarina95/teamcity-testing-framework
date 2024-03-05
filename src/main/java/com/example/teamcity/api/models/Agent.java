@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Agent {
+    // https://www.jetbrains.com/help/teamcity/rest/agent.html
     private String id;
     private String name;
+    private Integer typeId;
+    private String href;
+    private String webUrl;
 }

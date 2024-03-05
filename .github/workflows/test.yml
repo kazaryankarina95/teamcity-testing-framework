@@ -73,12 +73,52 @@ jobs:
           docker run -e SERVER_URL=http://$HOST:8111 -u 0 -d --name teamcity-agent \
           -v $(pwd)/tmp/teamcity_agent/conf:/data/teamcity_agent/conf \
           jetbrains/teamcity-agent:2023.11.1  
-          
+
       - name: Set up TeamCity agent
         run: ./mvnw test -Dtest=com.example.teamcity.setup.StartUpAgentTest#authorizeAgentTest
 
       - name: Run API suite
-        run: ./mvnw -X test -DsuiteXmlFile=testing-suites/api-suite.xml
+        run: ./mvnw test -DsuiteXmlFile=testing-suites/api-suite.xml
 
       - name: Run UI suite
-        run: ./mvnw -X test -DsuiteXmlFile=testing-suites/ui-suite.xml
+        run: ./mvnw test -DsuiteXmlFile=testing-suites/ui-suite.xml
+
+      # the following steps below create and publish test history in Allure: https://allurereport.org/docs/integrations-github/
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: target/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3.9.2
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+      # creating report with API tests coverage based on Swagger: https://github.com/viclovsky/swagger-coverage
+      - name: Run Swagger coverage
+        if: always()
+        run: swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://$HOST:8111/app/rest/swagger.json -i target/swagger-coverage-output
+
+      # Swagger coverage report is saved into GitHub Actions artefacts
+      - name: Save Swagger coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swagger-coverage
+          path: |
+            swagger-coverage-report.html
+            swagger-coverage-results.json

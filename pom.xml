@@ -13,24 +13,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <junit.version>5.10.0</junit.version>
         <aspectj.version>1.9.19</aspectj.version>
         <allure.version>2.24.0</allure.version>
+        <allure-maven.version>2.12.0</allure-maven.version>
         <rest-assured.version>5.1.1</rest-assured.version>
         <lombok.version>1.18.30</lombok.version>
         <jackson-annotations.version>2.15.2</jackson-annotations.version>
         <google-gson.version>2.10.1</google-gson.version>
         <assertj-core.version>3.22.0</assertj-core.version>
         <selenide.version>7.0.2</selenide.version>
+        <swagger-coverage-rest-assured.version>1.5.0</swagger-coverage-rest-assured.version>
         <suiteXmlFile>suiteXmlFile</suiteXmlFile>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit5</artifactId>
+            <artifactId>allure-rest-assured</artifactId>
             <version>${allure.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
@@ -45,15 +45,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -93,11 +87,15 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
             <version>${selenide.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.viclovsky</groupId>
+            <artifactId>swagger-coverage-rest-assured</artifactId>
+            <version>${swagger-coverage-rest-assured.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -112,7 +110,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
@@ -141,7 +138,7 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.12.0</version>
+                <version>${allure-maven.version}</version>
             </plugin>
         </plugins>
     </build>

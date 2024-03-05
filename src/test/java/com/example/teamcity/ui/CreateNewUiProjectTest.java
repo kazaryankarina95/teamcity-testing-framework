@@ -8,11 +8,17 @@ import com.example.teamcity.api.requests.checked.CheckedProject;
 import com.example.teamcity.api.spec.Specifications;
 import com.example.teamcity.ui.pages.admin.CreateNewProject;
 import com.example.teamcity.ui.pages.favorites.ProjectsPage;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.element;
 
+@Epic("UI tests")
+@Feature("Project creation")
+@Story("Creating project")
 public class CreateNewUiProjectTest extends BaseUiTest {
 
     // ************ IN THE SECTION BELOW YOU CAN FIND POSITIVE TEST CASES FOR PROJECT CREATION ON UI USE CASE ************
